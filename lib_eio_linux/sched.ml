@@ -464,16 +464,16 @@ let run ~loc ~extra_effects st main arg =
   in
   let result = ref None in
   let `Exit_scheduler =
-    let new_fiber = Fiber_context.make_root () in
+    let new_fiber = Fiber_context.make_root ~loc () in
     Domain_local_await.using
       ~prepare_for_await:Eio.Private.Dla.prepare_for_await
       ~while_running:(fun () ->
         fork ~new_fiber (fun () ->
-            Switch.run_protected (fun sw ->
+            Switch.run_protected ~loc (fun sw ->
                 Switch.on_release sw (fun () ->
                     Fd.close st.eventfd
                   );
-                Fiber.fork_daemon ~sw (fun () ->
+                Fiber.fork_daemon ~loc ~sw (fun () ->
                     Eio.Private.Ctf.set_name "eio_linux.monitor_event_fd";
                     monitor_event_fd st);
                 match main arg with
