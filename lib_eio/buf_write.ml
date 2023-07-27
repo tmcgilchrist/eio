@@ -485,7 +485,7 @@ let[@inline never] with_flow ~loc ~initial_size flow fn =
   let t = create ~sw initial_size in
   Fiber.fork ~loc ~sw (fun () ->
     Ctf.set_name "eio.buf_write.with_flow writer";
-    Flow.copy (as_flow t) flow);
+    copy t flow);
   match fn t with
   | x ->
     close t;

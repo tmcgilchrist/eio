@@ -86,7 +86,7 @@ end
 
 (** API for Eio backends only. *)
 module Private : sig
-  type _ Effect.t += 
+  type _ Effect.t +=
     | Await_readable : Unix.file_descr -> unit Effect.t      (** See {!await_readable} *)
     | Await_writable : Unix.file_descr -> unit Effect.t      (** See {!await_writable} *)
     | Get_monotonic_clock : Eio.Time.Mono.t Effect.t
@@ -96,8 +96,6 @@ module Private : sig
 
   module Fork_action = Fork_action
 end
-
-module Ctf = Ctf_unix
 
 val getnameinfo : Eio.Net.Sockaddr.t -> (string * string)
 (** [getnameinfo sockaddr] returns domain name and service for [sockaddr]. *)

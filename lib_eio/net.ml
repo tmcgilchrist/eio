@@ -194,9 +194,6 @@ let[@inline] accept_fork ~sw (t : #listening_socket) ~on_error handle =
   let loc = Ctf.get_caller () in
   accept_fork ~loc ~sw t ~on_error handle
 
-let accept_sub ~sw (t : #listening_socket) ~on_error handle =
-  accept_fork ~sw t ~on_error (fun flow addr -> Switch.run (fun sw -> handle ~sw flow addr))
-
 class virtual datagram_socket = object
   inherit socket
   method virtual send : ?dst:Sockaddr.datagram -> Cstruct.t list -> unit

@@ -25,7 +25,7 @@ let run ?(loc=Eio.Private.Ctf.get_caller ()) main =
   let stdin = (Flow.of_fd Eio_unix.Fd.stdin :> Eio_unix.source) in
   let stdout = (Flow.of_fd Eio_unix.Fd.stdout :> Eio_unix.sink) in
   let stderr = (Flow.of_fd Eio_unix.Fd.stderr :> Eio_unix.sink) in
-  Domain_mgr.run_event_loop main @@ object (_ : stdenv)
+  Domain_mgr.run_event_loop ~loc main @@ object (_ : stdenv)
     method stdin = stdin
     method stdout = stdout
     method stderr = stderr

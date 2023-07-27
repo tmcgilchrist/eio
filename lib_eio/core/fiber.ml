@@ -274,9 +274,6 @@ include List
 let[@inline always] fork ?(loc = Ctf.get_caller ()) ~sw fn =
   fork ~loc ~sw fn
 
-let[@inline always] fork_sub ?(loc = Ctf.get_caller ()) ~sw ~on_error fn =
-  fork_sub ~loc ~sw ~on_error fn
-
 let[@inline always] fork_promise ?(loc = Ctf.get_caller ()) ~sw fn =
   fork_promise ~loc ~sw fn
 

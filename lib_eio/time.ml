@@ -62,18 +62,12 @@ module Timeout = struct
   let seconds clock time =
     v clock (Mono.span_of_s time)
 
-  let of_s clock time =
-    Deprecated ((clock :> clock), time)
-
   let[@inline always] run t fn =
     match t with
     | Unlimited -> fn ()
     | Timeout (clock, d) ->
       let loc = Ctf.get_caller () in
       Fiber.first ~loc (fun () -> Mono.sleep_span clock d; Error `Timeout) fn
-    | Deprecated (clock, d) ->
-      let loc = Ctf.get_caller () in
-      Fiber.first ~loc (fun () -> sleep clock d; Error `Timeout) fn
 
   let[@inline always] run_exn t fn =
     match t with
@@ -81,9 +75,6 @@ module Timeout = struct
     | Timeout (clock, d) ->
       let loc = Ctf.get_caller () in
       Fiber.first ~loc (fun () -> Mono.sleep_span clock d; raise Timeout) fn
-    | Deprecated (clock, d) ->
-      let loc = Ctf.get_caller () in
-      Fiber.first ~loc (fun () -> sleep clock d; raise Timeout) fn
 
   let pp_duration f d =
     if d >= 0.001 && d < 0.1 then

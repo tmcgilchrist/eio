@@ -4,7 +4,7 @@ let force run fn =
 let run ~loc fn =
   match Sys.getenv_opt "EIO_BACKEND" with
   | Some ("io-uring" | "linux") -> force (Linux_backend.run ~loc) fn
-  | Some "posix" -> force Posix_backend.run ~loc fn
+  | Some "posix" -> force (Posix_backend.run ~loc) fn
   | Some "windows" -> force Windows_backend.run fn
   | None | Some "" ->
     Linux_backend.run ~loc fn ~fallback:(fun _ ->
